@@ -1,0 +1,22 @@
+[
+  {
+    "ServerInstance": "<ServerInstance1>",
+    "EnableDatabases": [ "foo1","foo2","foo3" ],
+    "BackupUrl": "https://<storageaccount>.blob.core.windows.net/<container1>",
+    "DefaultRetention": 7,
+    "DefaultFullBackupFreqType": "Daily",
+    "DefaultBackupBeginTime": "15:25",
+    "DefaultLogBackupFreq": "00:05"
+
+  },
+  {
+    "ServerInstance": "<ServerInstance2>",
+    "EnableDatabases": [ "foo4","foo5","foo6" ],
+    "BackupUrl": "https://<storageaccount>.blob.core.windows.net/<container2>",
+    "DefaultRetention": 7,
+    "DefaultFullBackupFreqType": "Daily",
+    "DefaultBackupBeginTime": "15:25",
+    "DefaultLogBackupFreq": "00:05"
+
+  }
+]

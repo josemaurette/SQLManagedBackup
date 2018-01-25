@@ -1,0 +1,25 @@
+[
+  {
+    "AvailabilityGroupAddress": "<AvailabilityGroupAddress>",
+    "AvailabilityGroupName": "<AvailabilityGroupName>",
+    "EnableDatabases": [ "foo1","foo2","foo3" ],
+    "BackupUrl": "https://<storageaccount>.blob.core.windows.net/<container1>",
+    "DefaultRetention": 7,
+    "DefaultFullBackupFreqType": "Daily",
+    "DefaultBackupBeginTime": "15:25",
+    "DefaultLogBackupFreq": "00:05"
+  },
+  {
+    "AvailabilityGroupAddress": "<AvailabilityGroupAddress>",
+    "AvailabilityGroupName": "<AvailabilityGroupName>",
+    "EnableDatabases": [ "all" ],
+    "DisableDatabases": [ "foo4","foo5" ],
+    "BackupUrl": "https://<storageaccount>.blob.core.windows.net/<container2>",
+    "DefaultRetention": 2,
+    "DefaultFullBackupFreqType": "Daily",
+    "DefaultBackupBeginTime": "15:25",
+    "DefaultLogBackupFreq": "00:05"
+
+  }
+
+]
