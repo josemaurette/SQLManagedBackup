@@ -14,6 +14,9 @@ foreach($config in $configs) {
     $FullBackupFreqType = $config.DefaultFullBackupFreqType
     $backupBeginTime = $config.DefaultBackupBeginTime
     $logBackupFreq = $config.DefaultLogBackupFreq
+    $StaggeredHour=$config.StaggeredIntervalHour
+    $StartHour =  [datetime]$backupBeginTime
+    $i = 0
 
     $results = Get-NonAGDatabases -ServerInstance $serverInstance 
 
@@ -24,7 +27,9 @@ foreach($config in $configs) {
 
         if (($enableDatabases -match $database -or $enableDatabases -match "all") -and (-not($disableDatabases -match $database)))
         {
-            Enable-SQLManagedBackup -ServerInstance $serverInstance -Database $database -BackupUrl $backupUrl -Retention $retention -FullBackupFreqType $fullBackupFreqType -BackupBeginTime $backupBeginTime -LogBackupFreq $logBackupFreq
+            $StaggeredHourResult = $StartHour.AddHours($i*$StaggeredHour).ToString("HH:mm")
+            Enable-SQLManagedBackup -ServerInstance $serverInstance -Database $database -BackupUrl $backupUrl -Retention $retention -FullBackupFreqType $fullBackupFreqType -BackupBeginTime $StaggeredHourResult -LogBackupFreq $logBackupFreq
+            $i+=1
         }
         else
         {
