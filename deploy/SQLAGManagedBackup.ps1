@@ -12,6 +12,10 @@ foreach($agConfig in $agsConfigs)
     $enableDatabases = $agConfig.EnableDatabases
     $disableDatabases = $agConfig.DisableDatabases
     $backupUrl = $agConfig.BackupUrl
+    $storageAccountName = $agConfig.StorageAccountName
+    $accountKey = $agConfig.AccountKey
+    $containerName = $agConfig.ContainerName
+    $policyName = $agConfig.PolicyName
     $retention = $agConfig.DefaultRetention
     $FullBackupFreqType = $agConfig.DefaultFullBackupFreqType
     $backupBeginTime = $agConfig.DefaultBackupBeginTime
@@ -25,6 +29,11 @@ foreach($agConfig in $agsConfigs)
     foreach ($si in $serverInstanceses)
     {
         $serverInstance = $si.ServerInstance
+        Write-Verbose  $serverInstance 
+        $secret = Get-SharedAccessSignature -StorageAccountName $storageAccountName -AccountKey $accountKey -ContainerName $containerName -PolicyName $policyName
+
+        Set-ManagedBackupCredential -ServerInstance $serverInstance -Credential $backupUrl -Secret $secret
+
         $results = Get-AGDatabases -ServerInstance $serverInstance -AvailabilityGroupName $availabilityGroupName
 
         foreach ($result in $results)

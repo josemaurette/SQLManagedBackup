@@ -4,3 +4,5 @@
 . $PSScriptRoot/Get-AGDatabases.ps1
 . $PSScriptRoot/Get-AGServerInstances.ps1
 . $PSScriptRoot/Get-ManagedBackupConfig.ps1
+. $PSScriptRoot/Set-ManagedBackupCredential.ps1
+. $PSScriptRoot/Get-SharedAccessSignature.ps1

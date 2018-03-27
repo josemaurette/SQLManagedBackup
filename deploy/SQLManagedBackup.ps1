@@ -10,6 +10,10 @@ foreach($config in $configs) {
     $enableDatabases = $config.EnableDatabases
     $disableDatabases = $config.DisableDatabases
     $backupUrl = $config.BackupUrl
+    $storageAccountName = $config.StorageAccountName
+    $accountKey = $config.AccountKey
+    $containerName = $config.ContainerName
+    $policyName = $config.PolicyName
     $retention = $config.DefaultRetention
     $FullBackupFreqType = $config.DefaultFullBackupFreqType
     $backupBeginTime = $config.DefaultBackupBeginTime
@@ -21,6 +25,11 @@ foreach($config in $configs) {
     $results = Get-NonAGDatabases -ServerInstance $serverInstance 
 
     Write-Verbose  $serverInstance 
+
+
+    $secret = Get-SharedAccessSignature -StorageAccountName $storageAccountName -AccountKey $accountKey -ContainerName $containerName -PolicyName $policyName
+    Set-ManagedBackupCredential -ServerInstance $serverInstance -Credential $backupUrl -Secret $secret
+
     foreach ($result in $results)
     {
         $database = $result.DatabaseName
