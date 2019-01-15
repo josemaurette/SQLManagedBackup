@@ -6,3 +6,6 @@
 . $PSScriptRoot/Get-ManagedBackupConfig.ps1
 . $PSScriptRoot/Set-ManagedBackupCredential.ps1
 . $PSScriptRoot/Get-SharedAccessSignature.ps1
+. $PSScriptRoot/Get-StorageContext.ps1
+. $PSScriptRoot/Remove-Blob.ps1
+. $PSScriptRoot/Get-CorruptedBackupBlobs.ps1
