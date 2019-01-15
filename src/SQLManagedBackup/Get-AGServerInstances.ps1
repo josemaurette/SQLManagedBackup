@@ -7,7 +7,7 @@ Function Get-AGServerInstances{
     )
     echo $AvailabilityGroupAddress
     $query = @"
-              SELECT  ar.replica_server_name  AS ServerInstance
+              SELECT  ar.replica_server_name AS ServerInstance
               FROM    sys.availability_groups AS ag
                   JOIN sys.availability_replicas AS ar ON ar.group_id = ag.group_id
                   JOIN sys.dm_hadr_availability_replica_states AS s
