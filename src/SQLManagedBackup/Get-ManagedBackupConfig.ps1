@@ -15,7 +15,8 @@ Function Get-ManagedBackupConfig {
                      mc.retention_days RetentionDays,
                      mc.full_backup_freq_type FullBackupFrequencyType ,
                      mc.log_backup_freq LogBackupFrequency
-              FROM   managed_backup.fn_backup_db_config('$Database') AS mc;
+              FROM   managed_backup.fn_backup_db_config('$Database') AS mc
+	      where mc.is_dropped=0;
 "@
 
     $result = Invoke-Sqlcmd -ServerInstance $serverInstance -query $query -QueryTimeout 0
