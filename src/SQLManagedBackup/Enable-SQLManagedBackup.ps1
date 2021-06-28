@@ -3,7 +3,7 @@ Function Enable-SQLManagedBackup {
     Param
     (
         [string] $ServerInstance,
-    	[string] $Database,
+        [string] $Database,
         [string] $BackupUrl,
         [int]    $Retention,
         [string] $FullBackupFreqType,
@@ -29,8 +29,11 @@ Function Enable-SQLManagedBackup {
 "@;
 
     #Add encryption if set in config
-    if ($EncryptionCertificate){
-        $query += @"
+    if ($EncryptionCertificate) {
+        
+        #Dont encrypt master and other system DBs
+        if ($Database -notin @("master", "model", "tempdb")) {
+            $query += @"
         
             USE msdb;
             EXEC managed_backup.sp_backup_config_advanced  @database_name = '$Database'                
@@ -38,7 +41,8 @@ Function Enable-SQLManagedBackup {
             ,@encryptor_type = 'CERTIFICATE'  
             ,@encryptor_name = '$EncryptionCertificate';  
 "@;
-    }
+        }
+    } 
 
     Invoke-Sqlcmd -ServerInstance $serverInstance -query $query -QueryTimeout 0
 
