@@ -22,6 +22,7 @@ foreach($agConfig in $agsConfigs)
     $logBackupFreq = $agConfig.DefaultLogBackupFreq
     $StaggeredHour=$agConfig.StaggeredIntervalHour
     $StartHour =  [datetime]$backupBeginTime
+    $EncryptionCertificate=$agConfig.EncryptionCertificate
     $i = 0
 
     $serverInstanceses = Get-AGServerInstances -AvailabilityGroupAddress $availabilityGroupAddress -AvailabilityGroupName $availabilityGroupName
@@ -44,7 +45,7 @@ foreach($agConfig in $agsConfigs)
         if (($enableDatabases -match $database -or $enableDatabases -match "all") -and (-not($disableDatabases -match $database)))
         {
              $StaggeredHourResult = $StartHour.AddHours($i*$StaggeredHour).ToString("HH:mm")
-             Enable-SQLManagedBackup -ServerInstance $serverInstance -Database $database -BackupUrl $backupUrl -Retention $retention -FullBackupFreqType $fullBackupFreqType -BackupBeginTime $StaggeredHourResult -LogBackupFreq $logBackupFreq
+             Enable-SQLManagedBackup -ServerInstance $serverInstance -Database $database -BackupUrl $backupUrl -Retention $retention -FullBackupFreqType $fullBackupFreqType -BackupBeginTime $StaggeredHourResult -LogBackupFreq $logBackupFreq -EncryptionCertificate $EncryptionCertificate
              $i+=1
         }
         else 

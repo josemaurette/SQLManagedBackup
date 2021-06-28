@@ -8,7 +8,8 @@ Function Enable-SQLManagedBackup {
         [int]    $Retention,
         [string] $FullBackupFreqType,
         [string] $BackupBeginTime,
-        [string] $LogBackupFreq
+        [string] $LogBackupFreq,
+        [string] $EncryptionCertificate
     )
 
     $query = @"
@@ -26,6 +27,18 @@ Function Enable-SQLManagedBackup {
               @backup_duration = N'04:00',
               @log_backup_freq = N'$LogBackupFreq'
 "@;
+
+    #Add encryption if set in config
+    if ($EncryptionCertificate){
+        $query += @"
+        
+            USE msdb;
+            EXEC managed_backup.sp_backup_config_advanced  @database_name = '$Database'                
+            ,@encryption_algorithm ='AES_256'  
+            ,@encryptor_type = 'CERTIFICATE'  
+            ,@encryptor_name = '$EncryptionCertificate';  
+"@;
+    }
 
     Invoke-Sqlcmd -ServerInstance $serverInstance -query $query -QueryTimeout 0
 
