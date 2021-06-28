@@ -20,6 +20,7 @@ foreach($config in $configs) {
     $logBackupFreq = $config.DefaultLogBackupFreq
     $StaggeredHour=$config.StaggeredIntervalHour
     $StartHour =  [datetime]$backupBeginTime
+    $EncryptionCertificate=$config.EncryptionCertificate
     $i = 0
 
     $results = Get-NonAGDatabases -ServerInstance $serverInstance 
@@ -37,7 +38,7 @@ foreach($config in $configs) {
         if (($enableDatabases -match $database -or $enableDatabases -match "all") -and (-not($disableDatabases -match $database)))
         {
             $StaggeredHourResult = $StartHour.AddHours($i*$StaggeredHour).ToString("HH:mm")
-            Enable-SQLManagedBackup -ServerInstance $serverInstance -Database $database -BackupUrl $backupUrl -Retention $retention -FullBackupFreqType $fullBackupFreqType -BackupBeginTime $StaggeredHourResult -LogBackupFreq $logBackupFreq
+            Enable-SQLManagedBackup -ServerInstance $serverInstance -Database $database -BackupUrl $backupUrl -Retention $retention -FullBackupFreqType $fullBackupFreqType -BackupBeginTime $StaggeredHourResult -LogBackupFreq $logBackupFreq -EncryptionCertificate $EncryptionCertificate
             $i+=1
         }
         else
